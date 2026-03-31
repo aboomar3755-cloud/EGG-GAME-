@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Egg Money Game PRO</title>
+
+<style>
+  body {
+    margin: 0;
+    background: radial-gradient(circle, #1a1a1a, #000);
+    color: white;
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  h1 {
+    margin-top: 20px;
+    font-size: 32px;
+  }
+
+  .total {
+    font-size: 22px;
+    margin-top: 10px;
+  }
+
+  .eggs {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 60px;
+    flex-wrap: wrap;
+  }
+
+  .egg {
+    width: 140px;
+    height: 180px;
+    border-radius: 50% 50% 45% 45%;
+    cursor: pointer;
+    position: relative;
+    transition: 0.3s;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  }
+
+  .egg:hover {
+    transform: scale(1.15) rotate(3deg);
+  }
+
+  .egg1 {
+    background: linear-gradient(135deg, #ff6ec4, #7873f5);
+  }
+
+  .egg2 {
+    background: linear-gradient(135deg, #56ab2f, #a8e063);
+  }
+
+  .egg3 {
+    background: linear-gradient(135deg, #36d1dc, #5b86e5);
+  }
+
+  .broken {
+    animation: crack 0.4s forwards;
+  }
+
+  @keyframes crack {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2) rotate(10deg); }
+    100% { transform: scale(0.9); opacity: 0.6; }
+  }
+
+  .money {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 28px;
+    font-weight: bold;
+    color: gold;
+    animation: pop 0.5s ease;
+  }
+
+  @keyframes pop {
+    0% { transform: translate(-50%, -100%) scale(0); opacity: 0; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  }
+
+  button {
+    margin-top: 40px;
+    padding: 12px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    background: #ff9800;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: #ffb74d;
+  }
+
+</style>
+</head>
+
+<body>
+
+<h1>🥚 Egg Money Game</h1>
+<div class="total">💰 Total: $<span id="total">0</span></div>
+
+<div class="eggs">
+  <div class="egg egg1" onclick="breakEgg(this)"></div>
+  <div class="egg egg2" onclick="breakEgg(this)"></div>
+  <div class="egg egg3" onclick="breakEgg(this)"></div>
+</div>
+
+<button onclick="resetGame()">🔄 Try Again</button>
+
+<script>
+
+let total = 0;
+
+function breakEgg(egg) {
+  if (egg.classList.contains("broken")) return;
+
+  let rewards = [1,2,3];
+  let reward = rewards[Math.floor(Math.random() * rewards.length)];
+
+  egg.classList.add("broken");
+  egg.innerHTML = "<div class='money'>$" + reward + "</div>";
+
+  total += reward;
+  document.getElementById("total").innerText = total;
+
+  // Sound effect
+  let sound = new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
+  sound.play();
+
+  // Win message
+  setTimeout(() => {
+    alert("🎉 Congratulations! You won $" + reward);
+  }, 200);
+}
+
+function resetGame() {
+  let eggs = document.querySelectorAll(".egg");
+
+  eggs.forEach(egg => {
+    egg.classList.remove("broken");
+    egg.innerHTML = "";
+  });
+}
+
+</script>
+
+</body>
+</html>
